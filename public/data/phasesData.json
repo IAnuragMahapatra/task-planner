@@ -1,0 +1,92 @@
+{
+  "0": {
+    "title": "ML/DL Foundations & Python Refresher",
+    "days": [1, 10],
+    "icon": "GraduationCap",
+    "gradient": "from-cyan-500 to-cyan-600",
+    "color": "cyan",
+    "klos": ["KLO-0: Foundational ML & DL Concepts Reinforcement"],
+    "deliverables": ["D0: ML/DL Foundational Review Artifacts"]
+  },
+  "1": {
+    "title": "Core MLOps Tooling & Project Initialization",
+    "days": [11, 20],
+    "icon": "Wrench",
+    "gradient": "from-blue-500 to-blue-600",
+    "color": "blue",
+    "klos": ["KLO-1: Mastery of ML Model Lifecycle & MLOps Tooling"],
+    "deliverables": [
+      "D1: Centralized Source Code Repository",
+      "D2: \"Relevance Scorer\" ML Model & MLOps Artifacts (Initial Development & Tracking)"
+    ]
+  },
+  "2": {
+    "title": "Localized Model Serving Strategies – Custom API, Local MCP, Dedicated Server",
+    "days": [21, 45],
+    "icon": "Server",
+    "gradient": "from-indigo-500 to-indigo-600",
+    "color": "indigo",
+    "klos": [
+      "KLO-2: Custom API Service Design & Containerization",
+      "KLO-3: Lightweight Local MCP Server Implementation",
+      "KLO-4: Proficiency with Dedicated Inference Servers (Triton)"
+    ],
+    "deliverables": [
+      "D2: \"Relevance Scorer\" ML Model & MLOps Artifacts (Refined for serving)",
+      "D3: Custom FastAPI Service Deployment Package",
+      "D4: Local MCP Server Deployment Package",
+      "D5: NVIDIA Triton Inference Server Deployment Package (Initial Configuration)"
+    ]
+  },
+  "3": {
+    "title": "Localized Orchestration – Docker Compose & Kubernetes Deployment",
+    "days": [46, 65],
+    "icon": "Network",
+    "gradient": "from-purple-500 to-purple-600",
+    "color": "purple",
+    "klos": ["KLO-5: Kubernetes Orchestration for ML Workloads"],
+    "deliverables": [
+      "D6: Local Orchestration & Management Package (Docker Compose file, Kubernetes manifests for all three services)"
+    ]
+  },
+  "4": {
+    "title": "Cloud-Native Deployment – GCP Integration & Vertex AI Endpoints",
+    "days": [66, 80],
+    "icon": "CloudUpload",
+    "gradient": "from-teal-500 to-teal-600",
+    "color": "teal",
+    "klos": ["KLO-6: Cloud-Native ML Deployment & Management (Vertex AI)"],
+    "deliverables": [
+      "D2: \"Relevance Scorer\" ML Model & MLOps Artifacts (Prepared for GCS/Vertex AI)",
+      "D7: Google Cloud Vertex AI Deployment Package (Python scripts for Vertex AI deployment)"
+    ]
+  },
+  "5": {
+    "title": "Agent System Development, CI/CD Implementation & Full System Integration",
+    "days": [81, 90],
+    "icon": "Cog",
+    "gradient": "from-green-500 to-green-600",
+    "color": "green",
+    "klos": [
+      "KLO-7: Advanced Agentic AI System Architecture",
+      "KLO-8: CI/CD for Cloud-Based ML Deployments",
+      "KLO-9: Critical Evaluation & Comparative Documentation (Initial Documentation)"
+    ],
+    "deliverables": [
+      "D8: LangChain Agent System (Finalized)",
+      "D9: CI/CD Automation Suite (GitHub Actions workflow with basic test)",
+      "D10: Final Project Thesis & Documentation Suite (Draft of final report and README.md)"
+    ]
+  },
+  "6": {
+    "title": "Buffer, In-depth Comparative Analysis, Documentation & Advanced Topic Exploration",
+    "days": [91, 110],
+    "icon": "ClipboardList",
+    "gradient": "from-sky-500 to-sky-600",
+    "color": "sky",
+    "klos": ["KLO-9: Critical Evaluation & Comparative Documentation (In-depth Analysis)"],
+    "deliverables": [
+      "D10: Final Project Thesis & Documentation Suite (Final, including comparative analysis)"
+    ]
+  }
+}

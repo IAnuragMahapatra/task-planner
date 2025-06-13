@@ -1,0 +1,476 @@
+{
+  "1": [
+    "Review Logistic Regression: Theory, mathematical foundations, and Scikit-learn context.",
+    "Study Decision Trees & Random Forests: Theory and Scikit-learn context.",
+    "Begin Python OOP Refresher: Classes, objects, and constructors."
+  ],
+  "2": [
+    "Study Gradient Boosting (XGBoost/LightGBM) & SVMs: Theory and Scikit-learn context.",
+    "Continue Python OOP Refresher: Inheritance, polymorphism.",
+    "Start implementing Logistic Regression from scratch (Part 1: Hypothesis, cost function)."
+  ],
+  "3": [
+    "Complete Logistic Regression from scratch (Part 2: Gradient descent, prediction logic, testing).",
+    "Review Python Decorators and Context Managers.",
+    "Solidify understanding of NumPy and Pandas essentials for ML tasks."
+  ],
+  "4": [
+    "Review Neural Networks basics: Perceptron, MLP, Activation Functions, Forward Propagation.",
+    "Study Loss Functions, common Optimizers (SGD, Adam), and conceptual Backpropagation.",
+    "Plan for optional simple feed-forward NN implementation or deeper DL topic study."
+  ],
+  "5": [
+    "Optional: Implement a simple feed-forward Neural Network using NumPy.",
+    "Alternatively: Deep dive into a chosen DL concept (e.g., Convolutional Layers, RNNs - theoretical).",
+    "Ensure development environment (IDE, Python, Git) is fully configured and comfortable."
+  ],
+  "6": [
+    "Initialize GitHub repository with a predefined, logical folder structure.",
+    "Set up Python development environment using Poetry; install foundational libraries.",
+    "Write initial `README.md` outline and project goals."
+  ],
+  "7": [
+    "MLflow: Set up local tracking server and run example experiments.",
+    "MLflow: Understand UI, experiment/run structure, and parameter/metric logging.",
+    "DVC: Initialize DVC in the project repository and configure a local remote."
+  ],
+  "8": [
+    "DVC: Practice versioning sample data and model files (`dvc add`, `dvc commit`).",
+    "DVC: Understand `dvc push` and `dvc pull` with the local remote.",
+    "Plan integration of MLflow and DVC for the \"Relevance Scorer\" model."
+  ],
+  "9": [
+    "Define \"Relevance Scorer\" task (binary classification), plan data acquisition/simulation.",
+    "Acquire or simulate initial dataset for relevance scoring.",
+    "Perform initial Exploratory Data Analysis (EDA) on the dataset."
+  ],
+  "10": [
+    "DVC: Store and version the raw dataset under `data/raw/`.",
+    "Develop initial Scikit-learn Pipeline (e.g., TF-IDF Vectorizer + Logistic Regression).",
+    "Write the initial model training script (`model_training/train_relevance_scorer.py`)."
+  ],
+  "11": [
+    "Integrate MLflow into the training script: Log parameters and metrics.",
+    "MLflow: Log the trained Scikit-learn Pipeline as an artifact.",
+    "DVC: Version the trained model artifact and relevant DVC metadata files with Git."
+  ],
+  "12": [
+    "Review Phase 1 progress (MLOps Tooling & Project Init).",
+    "Consolidate understanding of MLflow and DVC workflows.",
+    "Prepare for Phase 2: Localized Model Serving Strategies."
+  ],
+  "13": [
+    "FastAPI: Study basics, routing, and request/response lifecycle.",
+    "FastAPI: Learn Pydantic models for data validation and serialization.",
+    "Begin designing the FastAPI application for the \"Relevance Scorer\" model."
+  ],
+  "14": [
+    "FastAPI: Implement the prediction endpoint (`/predict`) for the model.",
+    "FastAPI: Implement model loading logic (e.g., on startup or via dependency injection).",
+    "Test the FastAPI endpoint locally with sample requests."
+  ],
+  "15": [
+    "FastAPI: Implement error handling and status codes.",
+    "FastAPI: Explore dependency injection for managing resources like the ML model.",
+    "Refine Pydantic models for robust request/response validation."
+  ],
+  "16": [
+    "Docker: Study Docker fundamentals and `Dockerfile` syntax.",
+    "Create a `Dockerfile` for the FastAPI application.",
+    "Build the Docker image and test the containerized FastAPI service locally."
+  ],
+  "17": [
+    "Refine `Dockerfile` for optimization (e.g., multi-stage builds, smaller base image).",
+    "FastAPI: Explore basic testing using `pytest` and FastAPI's `TestClient`.",
+    "Write simple unit tests for the prediction endpoint."
+  ],
+  "18": [
+    "Review FastAPI best practices and advanced features (e.g., background tasks, middleware - conceptual).",
+    "Ensure the FastAPI service and its containerization are robust and well-documented.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "19": [
+    "Research principles of Model Context Protocol (MCP) or similar lightweight serving frameworks.",
+    "Select an approach for the Local MCP Server (e.g., extend FastAPI, simple Flask, or custom structure).",
+    "Begin designing the MCP-style server: model loading, context management, prediction execution, API exposure."
+  ],
+  "20": [
+    "Implement MCP server (Part 1: Model loading mechanism and basic server structure).",
+    "Implement MCP server (Part 2: Prediction logic and defining the API endpoint).",
+    "Test the MCP server locally with sample requests."
+  ],
+  "21": [
+    "Create a `Dockerfile` for the Local MCP server application.",
+    "Build the Docker image and test the containerized MCP service locally.",
+    "Compare the FastAPI and MCP approaches conceptually, noting differences in structure and conventions."
+  ],
+  "22": [
+    "Document the Local MCP server implementation and its design choices.",
+    "Refine the MCP server based on testing and comparison.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "23": [
+    "NVIDIA Triton: Install Triton Inference Server (via Docker).",
+    "NVIDIA Triton: Study its architecture, model repository structure, and supported backends.",
+    "Focus on the Triton Python Backend: `model.py` structure (`initialize`, `execute`, `finalize`)."
+  ],
+  "24": [
+    "Create the Triton model repository structure for the \"Relevance Scorer\" model.",
+    "Implement the `model.py` for the Python Backend, including model loading in `initialize`.",
+    "Implement the prediction logic in the `execute` function of `model.py`."
+  ],
+  "25": [
+    "Create the `config.pbtxt` file for the Triton model.",
+    "Define model inputs (name, data type, dimensions) and outputs in `config.pbtxt`.",
+    "Specify the Python backend and platform in `config.pbtxt`."
+  ],
+  "26": [
+    "Run the Triton Docker container, mounting the model repository.",
+    "Test inference via HTTP/REST client (e.g., `curl` or Postman), ensuring correct request format.",
+    "Troubleshoot any issues with Triton server logs and model configuration."
+  ],
+  "27": [
+    "Develop a simple Python client script to test Triton inference via gRPC.",
+    "Compare HTTP and gRPC client interaction with Triton.",
+    "Explore Triton features conceptually: dynamic batching, model ensembles, rate limiting."
+  ],
+  "28": [
+    "Review Triton deployment and configuration.",
+    "Consolidate learnings on dedicated inference servers.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "29": [
+    "LangChain: Introduction to core components (LLMs, Prompts, Chains, Tools).",
+    "Set up LangChain environment and install necessary libraries.",
+    "Begin developing a modular custom LangChain `Tool` class for the FastAPI service."
+  ],
+  "30": [
+    "Develop custom LangChain `Tool` classes for the Local MCP service.",
+    "Develop custom LangChain `Tool` classes for the local Triton Inference Server.",
+    "Construct a rudimentary LangChain agent to test these tools individually."
+  ],
+  "31": [
+    "Docker Compose: Study basics and `docker-compose.yml` syntax.",
+    "Plan the multi-container environment: FastAPI, Local MCP, Triton, and MLflow services.",
+    "Begin creating the `docker-compose.yml` file, defining services and their configurations."
+  ],
+  "32": [
+    "Complete `docker-compose.yml`: Define ports, volumes, and dependencies for all services.",
+    "Test the multi-service orchestration locally using `docker-compose up`.",
+    "Verify inter-service communication if applicable (though likely minimal for these independent servers)."
+  ],
+  "33": [
+    "Refine Docker Compose setup: Manage environment variables, build contexts.",
+    "Practice starting, stopping, and rebuilding services with Docker Compose.",
+    "Document the Docker Compose setup and service configurations."
+  ],
+  "34": [
+    "Review Docker Compose orchestration and learnings.",
+    "Ensure all local services can be managed effectively.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "35": [
+    "Kubernetes: Study core concepts (Pods, Nodes, Clusters, Control Plane).",
+    "Kubernetes: Understand `kubectl` CLI basics and common commands.",
+    "Install and configure Minikube on the development workstation."
+  ],
+  "36": [
+    "Kubernetes: Study Deployments (managing Pod replicas, updates).",
+    "Kubernetes: Study Services (ClusterIP, NodePort, LoadBalancer for exposing Deployments).",
+    "Run a sample application on Minikube to get familiar with the workflow."
+  ],
+  "37": [
+    "Kubernetes: Study Namespaces for organizing resources.",
+    "Kubernetes: Overview of ConfigMaps (for configuration data) and Secrets (for sensitive data).",
+    "Practice `kubectl` commands: `get`, `describe`, `logs`, `exec`, `apply`, `delete`."
+  ],
+  "38": [
+    "Develop Kubernetes `Deployment` YAML manifest for the FastAPI service.",
+    "Develop Kubernetes `Service` (e.g., NodePort) YAML manifest for the FastAPI service.",
+    "Deploy the FastAPI service to Minikube and test its accessibility."
+  ],
+  "39": [
+    "Troubleshoot FastAPI deployment on Minikube using `kubectl` logs and describe commands.",
+    "Develop Kubernetes `Deployment` and `Service` YAML manifests for the Local MCP service.",
+    "Deploy the Local MCP service to Minikube and test its accessibility."
+  ],
+  "40": [
+    "Plan Triton deployment on Kubernetes: Custom Docker image with baked-in model vs. volume mounts.",
+    "Decision: Prioritize building a custom Triton Docker image with the model for K8s simplicity.",
+    "Build the custom Triton image containing the \"Relevance Scorer\" model and its configuration."
+  ],
+  "41": [
+    "Develop Kubernetes `Deployment` YAML manifest for the custom Triton service.",
+    "Develop Kubernetes `Service` YAML manifest for the Triton service.",
+    "Deploy the Triton service to Minikube and test its inference endpoint."
+  ],
+  "42": [
+    "Review all three service deployments on Minikube.",
+    "Ensure all services are accessible and functioning correctly.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "43": [
+    "Kubernetes: Study `livenessProbe` and `readinessProbe` for health checks.",
+    "Implement `livenessProbe` and `readinessProbe` for one of the deployed services (e.g., FastAPI).",
+    "Observe probe behavior and understand their impact on service availability."
+  ],
+  "44": [
+    "Kubernetes: Study `ConfigMaps` for managing non-sensitive configuration data.",
+    "Implement a simple `ConfigMap` example for one service (if applicable, e.g., an environment variable).",
+    "Kubernetes: Study `Secrets` for managing sensitive data (conceptual understanding and simple example if time permits)."
+  ],
+  "45": [
+    "LangChain: Update tool configurations to target services exposed via Kubernetes on Minikube.",
+    "Test the LangChain agent's interaction with services running on Kubernetes.",
+    "Review Kubernetes orchestration phase and consolidate learnings."
+  ],
+  "46": [
+    "GCP: Create a new project or select an existing one for this project.",
+    "GCP: Enable billing for the project.",
+    "GCP: Enable necessary APIs: Vertex AI, Cloud Storage, IAM."
+  ],
+  "47": [
+    "GCP IAM: Create a new service account for programmatic access.",
+    "GCP IAM: Assign appropriate roles to the service account (e.g., Vertex AI User, Storage Object Admin).",
+    "Download the service account key JSON file (if using key-based auth initially, though Workload Identity is preferred for CI/CD)."
+  ],
+  "48": [
+    "Google Cloud SDK: Install and initialize `gcloud` CLI.",
+    "Authenticate `gcloud` CLI with your user account or the service account.",
+    "Familiarize with the Vertex AI console: Model Registry, Endpoints, Notebooks, Pipelines overview."
+  ],
+  "49": [
+    "Review GCP setup and Vertex AI service introduction.",
+    "Ensure all prerequisites for Vertex AI deployment are met.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "50": [
+    "Vertex AI: Understand pre-built serving containers for Scikit-learn (versions, requirements).",
+    "GCS: Create a Google Cloud Storage bucket for DVC remote storage.",
+    "GCS: Create a separate path or bucket for Vertex AI model artifacts staging."
+  ],
+  "51": [
+    "DVC: Configure DVC to use the GCS bucket as a remote storage location (`dvc remote add ...`).",
+    "DVC: Push DVC-tracked artifacts (data and initial model) to the GCS remote (`dvc push -r gcs_remote`).",
+    "Verify artifacts are present in the GCS bucket."
+  ],
+  "52": [
+    "Prepare the trained Scikit-learn Pipeline artifact (e.g., `model.joblib`) for Vertex AI.",
+    "Upload the model artifact to the GCS staging path designated for Vertex AI.",
+    "Ensure the model artifact path is correctly noted for deployment scripts."
+  ],
+  "53": [
+    "Python SDK for Vertex AI (`google-cloud-aiplatform`): Install and set up in your development environment.",
+    "Practice authenticating the SDK (e.g., Application Default Credentials, service account key).",
+    "Review SDK documentation for model uploading and endpoint creation."
+  ],
+  "54": [
+    "Write Python script (`scripts/cloud_deployment_vertexai/deploy_model.py` - Part 1): Programmatically upload the model from GCS to Vertex AI Model Registry.",
+    "Specify the appropriate pre-built serving container, model description, and any health check routes.",
+    "Test the model upload script and verify the model in Vertex AI Model Registry."
+  ],
+  "55": [
+    "Write Python script (Part 2): Programmatically create a Vertex AI Endpoint.",
+    "Specify endpoint display name and any other configurations.",
+    "Test the endpoint creation script and verify in the Vertex AI console."
+  ],
+  "56": [
+    "Write Python script (Part 3): Programmatically deploy the registered model to the created Vertex AI Endpoint.",
+    "Configure traffic split (100% to the new model initially) and machine type for the deployment.",
+    "Test the model deployment script."
+  ],
+  "57": [
+    "Test the Vertex AI Endpoint inference capabilities using the Python SDK.",
+    "Test inference using the `gcloud` CLI.",
+    "Utilize Cloud Logging to troubleshoot any deployment or inference issues."
+  ],
+  "58": [
+    "Review Vertex AI deployment process and scripts.",
+    "Consolidate understanding of cloud-native model serving.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "59": [
+    "LangChain: Plan the specific `Tool` variant for interacting with the deployed Vertex AI Endpoint.",
+    "Develop the LangChain `Tool` using the `google-cloud-aiplatform` SDK for predictions.",
+    "Focus on handling input/output formats expected by the Vertex AI endpoint."
+  ],
+  "60": [
+    "Ensure proper authentication handling for the `google-cloud-aiplatform` SDK within the agent's environment.",
+    "Test the LangChain tool for Vertex AI predictions thoroughly.",
+    "Integrate this new tool into the existing rudimentary agent for testing."
+  ],
+  "61": [
+    "LangChain: Integrate pre-built LangChain tools (e.g., `ArxivQueryRun`) for research paper retrieval.",
+    "Test the Arxiv tool independently to understand its functionality and output.",
+    "Plan the full agent workflow: user query -> Arxiv paper retrieval -> relevance scoring -> filtering/summarization -> user presentation."
+  ],
+  "62": [
+    "Design and implement the core reasoning loop of the LangChain agent.",
+    "Implement logic for tool selection, allowing the agent to choose the correct model serving endpoint (FastAPI, MCP, Triton, Vertex AI) based on configuration.",
+    "Begin implementing the agent workflow, starting with query intake and paper retrieval."
+  ],
+  "63": [
+    "Continue implementing the agent workflow: Pass retrieved paper data to the relevance scoring tool.",
+    "Implement basic filtering based on relevance scores.",
+    "Optionally, implement a very basic summarization step (e.g., using a simple LLM call if available, or just presenting key info)."
+  ],
+  "64": [
+    "LangChain: Implement conversational memory (e.g., `ConversationBufferMemory`) into the agent.",
+    "Refine agent prompts to guide its behavior and improve tool usage.",
+    "Test the agent's conversational capabilities and memory persistence."
+  ],
+  "65": [
+    "Thoroughly test and debug the advanced LangChain agent with all configurable model serving backends.",
+    "Refine the agent's output presentation to the user.",
+    "Document the agent's architecture and how to configure its tools."
+  ],
+  "66": [
+    "GitHub Actions: Study basics of CI/CD and GitHub Actions workflow syntax.",
+    "Plan the CI/CD pipeline for deploying model updates to Vertex AI.",
+    "Focus on triggers (manual `workflow_dispatch` or branch push) and authentication."
+  ],
+  "67": [
+    "Implement secure authentication to GCP from GitHub Actions: Set up Workload Identity Federation.",
+    "Configure GitHub repository secrets for GCP project ID, service account, etc.",
+    "Develop the GitHub Actions workflow file (`.github/workflows/deploy_model_to_vertex.yml` - Part 1: Trigger, auth, checkout code)."
+  ],
+  "68": [
+    "Continue GitHub Actions workflow (Part 2: Set up Python, install dependencies).",
+    "Integrate the Vertex AI deployment script (from D7) into the workflow to deploy/update the model version.",
+    "Add a simple automated test step (e.g., script to send a sample request to the Vertex AI endpoint and check for a 200 OK response)."
+  ],
+  "69": [
+    "Thoroughly test the complete CI/CD pipeline by triggering it manually.",
+    "Debug any issues in the workflow, authentication, or deployment script execution.",
+    "Ensure the automated test step correctly validates basic endpoint functionality."
+  ],
+  "70": [
+    "Conduct comprehensive end-to-end testing of the entire system.",
+    "Validate agent behavior with each model serving backend (FastAPI, Local MCP, Triton – local/K8s, Vertex AI).",
+    "Perform code cleanup, add comprehensive comments, and ensure reproducibility of setups."
+  ],
+  "71": [
+    "Begin drafting the final `README.md` document: Detailed architecture overview.",
+    "Draft setup instructions for local development environment.",
+    "Draft setup instructions for cloud environment (GCP, Vertex AI)."
+  ],
+  "72": [
+    "Draft model training procedures and MLOps tool usage (MLflow, DVC).",
+    "Draft deployment guides for each environment (FastAPI, MCP, Triton, K8s, Vertex AI).",
+    "Draft CI/CD pipeline explanation and agent usage instructions."
+  ],
+  "73": [
+    "Review progress on documentation and system integration.",
+    "Identify any remaining gaps or areas needing refinement.",
+    "*Short Break / Review Phase 5*"
+  ],
+  "74": [
+    "Begin Formal Comparative Analysis: Local Serving Methods (FastAPI vs. Local MCP Framework vs. Triton).",
+    "Focus on: ease of use, Python model integration, configuration overhead.",
+    "Analyze: performance characteristics, feature sets, resource consumption for the Scikit-learn model."
+  ],
+  "75": [
+    "Continue Comparative Analysis: Orchestration & Management (Self-managed Kubernetes vs. Google Cloud Vertex AI).",
+    "Focus on: operational burden, scalability, integrated MLOps features.",
+    "Analyze: cost considerations, deployment flexibility for various model types."
+  ],
+  "76": [
+    "Articulate scenarios where each deployment methodology (local serving options and orchestration options) demonstrates superior suitability.",
+    "Draft this section of the comparative analysis, providing clear justifications.",
+    "Start creating diagrams to support the analysis (e.g., feature comparison tables)."
+  ],
+  "77": [
+    "Refine the comparative analysis report.",
+    "Ensure critical evaluation of advantages, disadvantages, and optimal use cases for each strategy.",
+    "Integrate this analysis into the `README.md` or as a separate document."
+  ],
+  "78": [
+    "Finalize the `README.md` structure and content, ensuring all sections are complete.",
+    "Create supporting diagrams for overall system architecture, deployment flows, and agent interaction.",
+    "Review all setup and usage instructions for clarity, accuracy, and reproducibility."
+  ],
+  "79": [
+    "Perform a final code review across the entire project for quality and consistency.",
+    "Ensure all deliverables (D0-D10) are in place, polished, and correctly organized in the repository.",
+    "Prepare a project demonstration outline or script."
+  ],
+  "80": [
+    "Review all Key Learning Objectives (KLOs) and ensure they have been adequately addressed.",
+    "Self-assess understanding of each technology and concept covered.",
+    "*Short Break / Prepare for Advanced Topics or Buffer Usage*"
+  ],
+  "81": [
+    "Select Advanced Topic 1 for exploration (e.g., Model Format Exploration - ONNX with Triton).",
+    "Advanced Topic 1 - Day 1: Research ONNX format, tools for Scikit-learn to ONNX conversion.",
+    "Convert the \"Relevance Scorer\" model to ONNX format and save the artifact."
+  ],
+  "82": [
+    "Advanced Topic 1 - Day 2: Set up Triton to serve the ONNX model (using ONNX Runtime backend).",
+    "Configure `config.pbtxt` for the ONNX model.",
+    "Test inference with the ONNX model on Triton and compare with Python backend (ease of deployment, initial performance feel)."
+  ],
+  "83": [
+    "Review learnings from Advanced Topic 1.",
+    "Document findings and comparison in a dedicated section or notes.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "84": [
+    "Select Advanced Topic 2 for exploration (e.g., Advanced Vertex AI Capabilities - Vertex AI Pipelines).",
+    "Advanced Topic 2 - Day 1: Study Vertex AI Pipelines concepts (components, pipeline definition - Kubeflow Pipelines SDK).",
+    "Design a simple Vertex AI Pipeline (e.g., data preprocessing + model training)."
+  ],
+  "85": [
+    "Advanced Topic 2 - Day 2: Implement and run the simple Vertex AI Pipeline.",
+    "Explore pipeline monitoring and artifact tracking in Vertex AI.",
+    "Consider how the existing training script could be componentized for a pipeline."
+  ],
+  "86": [
+    "Review learnings from Advanced Topic 2.",
+    "Document findings and potential benefits of using Vertex AI Pipelines.",
+    "*Short Break / Catch-up Day*"
+  ],
+  "87": [
+    "Select Advanced Topic 3 for exploration (e.g., Basic Monitoring Implementation - Prometheus with FastAPI/Triton).",
+    "Advanced Topic 3 - Day 1: Set up Prometheus locally (e.g., via Docker).",
+    "Instrument FastAPI service to expose basic metrics (e.g., request count, latency) compatible with Prometheus."
+  ],
+  "88": [
+    "Advanced Topic 3 - Day 2: Configure Prometheus to scrape metrics from FastAPI.",
+    "Explore Triton's built-in metrics endpoint and configure Prometheus to scrape it.",
+    "Optionally, set up Grafana to visualize basic metrics from Prometheus."
+  ],
+  "89": [
+    "Review learnings from Advanced Topic 3.",
+    "Document findings on basic monitoring setup and its importance.",
+    "Consider how this could be extended in a production scenario."
+  ],
+  "90": [
+    "Final project review: Go through all deliverables, documentation, and code one last time.",
+    "Ensure the GitHub repository is clean, well-organized, and ready for showcase.",
+    "Reflect on the entire learning journey and key takeaways."
+  ],
+  "91": [
+    "Buffer Day: Address any remaining small tasks, polish documentation further.",
+    "Prepare for a potential project showcase or presentation (internal or personal).",
+    "Relax and acknowledge the significant effort and learning achieved."
+  ],
+  "92": ["Rest and Recharge", "Review project highlights", "Plan next learning steps beyond this project"],
+  "93": ["Rest and Recharge", "Consolidate notes and learnings", "Explore related MLOps or Agentic AI topics online"],
+  "94": ["Rest and Recharge", "Light review of challenging concepts", "Update personal portfolio with project details"],
+  "95": ["Rest and Recharge", "Final check of repository and documentation links", "Celebrate project completion"],
+  "96": ["Buffer / Deep Dive", "Revisit a specific KLO for deeper understanding", "Explore an alternative tool for one of the tasks"],
+  "97": ["Buffer / Deep Dive", "Work on a small extension or feature for the agent", "Read research papers related to Agentic AI or MLOps"],
+  "98": ["Buffer / Deep Dive", "Refactor a section of code for better clarity or performance", "Experiment with advanced K8s configurations"],
+  "99": ["Buffer / Deep Dive", "Write a blog post summarizing the project or a key learning", "Contribute to an open-source MLOps tool (even a small documentation fix)"],
+  "100": ["Buffer / Deep Dive", "Prepare a more detailed presentation of the project", "Network with others working on similar projects"],
+  "101": ["Rest and Recharge", "Reflect on skills gained", "Identify areas for future growth"],
+  "102": ["Rest and Recharge", "Explore career paths related to MLOps and AI Systems", "Update LinkedIn profile with new skills"],
+  "103": ["Rest and Recharge", "Review project documentation from an outsider's perspective for clarity", "Practice explaining the project to different audiences"],
+  "104": ["Rest and Recharge", "Clean up local development environment, archive project files if needed", "Start thinking about the next personal project"],
+  "105": ["Rest and Recharge", "Review industry best practices for MLOps", "Explore MLOps certifications or courses for further learning"],
+  "106": ["Buffer / Final Polish", "Final read-through of all documentation", "Ensure all links and commands in README are working"],
+  "107": ["Buffer / Final Polish", "Create a short video demo of the project", "Solicit feedback on the project from a peer if possible"],
+  "108": ["Buffer / Final Polish", "Archive any cloud resources to avoid costs (if not on free tier)", "Write down lessons learned during the project"],
+  "109": ["Buffer / Final Polish", "Prepare a personal summary of achievements and challenges", "Ensure all code is committed and pushed to GitHub"],
+  "110": ["Project Officially Concluded", "Take a well-deserved break!", "Plan future learning and application of new skills"]
+}

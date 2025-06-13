@@ -1,0 +1,30 @@
+[
+  {
+    "time": "9:00-12:00",
+    "activity": "Deep Work Session",
+    "description": "Core project tasks, algorithm implementation, and complex problem-solving work",
+    "icon": "Zap",
+    "color": "text-amber-600"
+  },
+  {
+    "time": "14:00-17:00",
+    "activity": "Implementation & Testing",
+    "description": "Code development, debugging, testing, and performance optimization",
+    "icon": "Code",
+    "color": "text-emerald-600"
+  },
+  {
+    "time": "19:00-21:00",
+    "activity": "Documentation & Review",
+    "description": "Documentation writing, code review, progress assessment, and next-day planning",
+    "icon": "BookOpen",
+    "color": "text-blue-600"
+  },
+  {
+    "time": "21:30-22:30",
+    "activity": "Learning & Research",
+    "description": "Study new concepts, research papers, and theoretical understanding",
+    "icon": "GraduationCap",
+    "color": "text-purple-600"
+  }
+]
