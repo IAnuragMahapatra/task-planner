@@ -1,8 +1,9 @@
+// @/contexts/ProjectContext.tsx
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useTheme } from 'next-themes';
-import { LocalProgressManager, UserProgress } from '@/lib/localStorage';
+import { LocalProgressManager, UserProgress, DEFAULT_PROGRESS, ProgressSummary } from '@/lib/localStorage';
 
 interface ProjectContextType {
   currentDay: number;
@@ -18,10 +19,12 @@ interface ProjectContextType {
   exportData: () => string;
   importData: (data: string) => boolean;
   clearAllData: () => void;
-  getProgressSummary: () => ReturnType<typeof LocalProgressManager.getProgressSummary>;
+  getProgressSummary: () => ProgressSummary;
 }
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
+
+const INITIAL_USER_PROGRESS: UserProgress = DEFAULT_PROGRESS;
 
 export const useProject = () => {
   const context = useContext(ProjectContext);
@@ -33,10 +36,19 @@ export const useProject = () => {
 
 export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { setTheme } = useTheme();
-  const [userProgress, setUserProgress] = useState<UserProgress>(LocalProgressManager.loadProgress());
+  const [userProgress, setUserProgress] = useState<UserProgress>(INITIAL_USER_PROGRESS);
   const [tasksData, setTasksData] = useState<Record<string, string[]>>({});
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Load tasks data
+  useEffect(() => {
+    setIsMounted(true);
+    const savedProgress = LocalProgressManager.loadProgress();
+    setUserProgress(savedProgress);
+    if (savedProgress.preferences.theme) {
+      setTheme(savedProgress.preferences.theme);
+    }
+  }, [setTheme]);
+
   useEffect(() => {
     const loadTasksData = async () => {
       try {
@@ -51,130 +63,169 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
     loadTasksData();
   }, []);
 
-  // Sync theme with user preferences
   useEffect(() => {
-    if (userProgress.preferences.theme) {
-      setTheme(userProgress.preferences.theme);
+    if (isMounted) {
+      LocalProgressManager.saveProgress(userProgress);
     }
-  }, [userProgress.preferences.theme, setTheme]);
+  }, [userProgress, isMounted]);
 
-  // Auto-save progress changes
-  useEffect(() => {
-    LocalProgressManager.saveProgress(userProgress);
-  }, [userProgress]);
-
-  const setCurrentDay = (day: number) => {
+  const handleSetCurrentDay = useCallback((day: number) => {
     setUserProgress(prev => ({ ...prev, currentDay: day }));
-  };
+  }, []);
 
-  const toggleTask = (day: number, taskIndex: number) => {
+  const handleToggleTask = useCallback((day: number, taskIndex: number) => {
     setUserProgress(prev => {
       const dayKey = day.toString();
       const dayTasks = prev.completedTasks[dayKey] || [];
       const newDayTasks = [...dayTasks];
       newDayTasks[taskIndex] = !newDayTasks[taskIndex];
-      
+
       const newCompletedTasks = {
         ...prev.completedTasks,
         [dayKey]: newDayTasks
       };
 
-      // Update daily stats
       const tasksCompleted = newDayTasks.filter(Boolean).length;
       const totalTasks = tasksData[dayKey]?.length || 0;
-      LocalProgressManager.updateDailyStats(day, tasksCompleted, totalTasks);
+
+      const updatedDailyStats = {
+        ...prev.dailyStats,
+        [dayKey]: {
+          ...(prev.dailyStats[dayKey] || { focusTime: 0, realDate: new Date().toISOString().split('T')[0] }),
+          tasksCompleted: tasksCompleted,
+          totalTasks: totalTasks,
+          lastUpdated: new Date().toISOString(),
+        }
+      };
+
+      if (isMounted) {
+        LocalProgressManager.updateDailyStats(day, tasksCompleted, totalTasks, updatedDailyStats[dayKey].focusTime);
+      }
 
       return {
         ...prev,
-        completedTasks: newCompletedTasks
+        completedTasks: newCompletedTasks,
+        dailyStats: updatedDailyStats,
       };
     });
-  };
+  }, [isMounted, tasksData]);
 
-  const updateProgress = (progress: Partial<UserProgress>) => {
+  const handleUpdateProgress = useCallback((progress: Partial<UserProgress>) => {
     setUserProgress(prev => {
-      const updated = { ...prev, ...progress };
-      
-      // If theme preference is updated, apply it immediately
-      if (progress.preferences?.theme) {
+      const updated = {
+        ...prev,
+        ...progress,
+        preferences: {
+          ...prev.preferences,
+          ...progress.preferences,
+        },
+      };
+
+      if (isMounted && progress.preferences?.theme) {
         setTheme(progress.preferences.theme);
       }
-      
+
       return updated;
     });
-  };
+  }, [isMounted, setTheme]);
 
-  const getTotalCompletedTasks = () => {
+  const memoizedGetTotalCompletedTasks = useCallback(() => {
     return Object.values(userProgress.completedTasks)
       .flat()
       .filter(Boolean).length;
-  };
+  }, [userProgress.completedTasks]);
 
-  const getTotalTasks = () => {
+  const memoizedGetTotalTasks = useCallback(() => {
     return Object.values(tasksData).reduce((total, dayTasks) => total + dayTasks.length, 0);
-  };
+  }, [tasksData]);
 
-  const getDayCompletedTasks = (day: number) => {
+  const memoizedGetDayCompletedTasks = useCallback((day: number) => {
     const dayKey = day.toString();
     const dayTasks = userProgress.completedTasks[dayKey] || [];
     return dayTasks.filter(Boolean).length;
-  };
+  }, [userProgress.completedTasks]);
 
-  const getDayTotalTasks = (day: number) => {
+  const memoizedGetDayTotalTasks = useCallback((day: number) => {
     const dayKey = day.toString();
     return tasksData[dayKey]?.length || 0;
-  };
+  }, [tasksData]);
 
-  const exportData = () => {
+  const handleExportData = useCallback(() => {
+    if (!isMounted) return '';
     return LocalProgressManager.exportProgress();
-  };
+  }, [isMounted]);
 
-  const importData = (data: string) => {
+  const handleImportData = useCallback((data: string) => {
+    if (!isMounted) return false;
     const success = LocalProgressManager.importProgress(data);
     if (success) {
       const newProgress = LocalProgressManager.loadProgress();
       setUserProgress(newProgress);
-      
-      // Apply imported theme preference
+
       if (newProgress.preferences.theme) {
         setTheme(newProgress.preferences.theme);
       }
     }
     return success;
-  };
+  }, [isMounted, setTheme]);
 
-  const clearAllData = () => {
+  const handleClearAllData = useCallback(() => {
+    if (!isMounted) return;
     LocalProgressManager.clearAllData();
     const resetProgress = LocalProgressManager.loadProgress();
     setUserProgress(resetProgress);
-    
-    // Reset theme to system default
-    setTheme('system');
-  };
 
-  const getProgressSummary = () => {
+    setTheme('system');
+  }, [isMounted, setTheme]);
+
+  const memoizedGetProgressSummary = useCallback(() => {
+    if (!isMounted) {
+      return {
+        totalTasksCompleted: 0,
+        totalDaysActive: 0,
+        totalFocusTime: 0,
+        currentStreak: 0,
+        longestStreak: 0,
+        daysSinceStart: 0,
+        activeDaysThisWeek: 0,
+        activeDaysThisMonth: 0,
+      };
+    }
     return LocalProgressManager.getProgressSummary();
-  };
+  }, [isMounted]);
+
+  const contextValue = useMemo(() => ({
+    currentDay: userProgress.currentDay,
+    setCurrentDay: handleSetCurrentDay,
+    completedTasks: userProgress.completedTasks,
+    toggleTask: handleToggleTask,
+    getTotalCompletedTasks: memoizedGetTotalCompletedTasks,
+    getTotalTasks: memoizedGetTotalTasks,
+    getDayCompletedTasks: memoizedGetDayCompletedTasks,
+    getDayTotalTasks: memoizedGetDayTotalTasks,
+    userProgress,
+    updateProgress: handleUpdateProgress,
+    exportData: handleExportData,
+    importData: handleImportData,
+    clearAllData: handleClearAllData,
+    getProgressSummary: memoizedGetProgressSummary,
+  }), [
+    userProgress,
+    handleSetCurrentDay,
+    handleToggleTask,
+    memoizedGetTotalCompletedTasks,
+    memoizedGetTotalTasks,
+    memoizedGetDayCompletedTasks,
+    memoizedGetDayTotalTasks,
+    handleUpdateProgress,
+    handleExportData,
+    handleImportData,
+    handleClearAllData,
+    memoizedGetProgressSummary,
+  ]);
 
   return (
-    <ProjectContext.Provider
-      value={{
-        currentDay: userProgress.currentDay,
-        setCurrentDay,
-        completedTasks: userProgress.completedTasks,
-        toggleTask,
-        getTotalCompletedTasks,
-        getTotalTasks,
-        getDayCompletedTasks,
-        getDayTotalTasks,
-        userProgress,
-        updateProgress,
-        exportData,
-        importData,
-        clearAllData,
-        getProgressSummary,
-      }}
-    >
+    <ProjectContext.Provider value={contextValue}>
       {children}
     </ProjectContext.Provider>
   );

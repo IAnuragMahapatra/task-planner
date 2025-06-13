@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useProject } from '@/contexts/ProjectContext';
 import { CheckCircle, Circle, ListTodo, Calendar, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,26 +12,37 @@ export const DailyTasks: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadTasks = async () => {
+    const fetchTasksForDay = async () => {
       setIsLoading(true);
       try {
         const response = await fetch('/data/tasksData.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const tasksData = await response.json();
         setTasks(tasksData[currentDay.toString()] || []);
       } catch (error) {
-        console.error('Error loading tasks:', error);
+        console.error('Failed to load tasks:', error);
         setTasks([]);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadTasks();
+    fetchTasksForDay();
   }, [currentDay]);
 
-  const dayCompletedTasks = completedTasks[currentDay.toString()] || [];
-  const completedCount = dayCompletedTasks.filter(Boolean).length;
-  const completionPercentage = tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : 0;
+  const dayCompletedTasks = useMemo(() => completedTasks[currentDay.toString()] || [], [completedTasks, currentDay]);
+
+  const completedCount = useMemo(() => dayCompletedTasks.filter(Boolean).length, [dayCompletedTasks]);
+
+  const completionPercentage = useMemo(() => {
+    return tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : 0;
+  }, [completedCount, tasks.length]);
+
+  const handleTaskClick = useCallback((index: number) => {
+    toggleTask(currentDay, index);
+  }, [currentDay, toggleTask]);
 
   if (isLoading) {
     return (
@@ -100,12 +111,21 @@ export const DailyTasks: React.FC = () => {
               return (
                 <div
                   key={index}
-                  className={`group flex items-start gap-4 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer hover:shadow-md ${
+                  role="checkbox"
+                  aria-checked={isCompleted}
+                  tabIndex={0}
+                  onClick={() => handleTaskClick(index)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleTaskClick(index);
+                      e.preventDefault();
+                    }
+                  }}
+                  className={`group flex items-start gap-4 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 ${
                     isCompleted 
                       ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30' 
                       : 'bg-slate-50 dark:bg-slate-700/50 border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700'
                   }`}
-                  onClick={() => toggleTask(currentDay, index)}
                 >
                   <div className="flex-shrink-0 mt-0.5">
                     {isCompleted ? (
@@ -141,7 +161,14 @@ export const DailyTasks: React.FC = () => {
                 Progress: {completedCount} of {tasks.length} completed
               </span>
               <div className="flex items-center gap-2">
-                <div className="w-24 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div 
+                  role="progressbar"
+                  aria-valuenow={completionPercentage}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-label={`Task completion progress: ${completionPercentage}%`}
+                  className="w-24 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"
+                >
                   <div 
                     className="h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-500 ease-out"
                     style={{ width: `${completionPercentage}%` }}
